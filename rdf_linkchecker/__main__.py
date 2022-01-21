@@ -9,7 +9,7 @@ import typer
 from rich import console
 
 from rdf_linkchecker import version
-from rdf_linkchecker.checkers.requests import Checker
+from rdf_linkchecker.checkers.requests_based import Checker
 from rdf_linkchecker.graph import get_urls
 
 

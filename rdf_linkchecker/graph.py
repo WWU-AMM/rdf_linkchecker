@@ -1,4 +1,4 @@
-from typing import Iterable, List
+from typing import Iterable, List, Optional
 
 from pathlib import Path
 
@@ -6,7 +6,8 @@ import validators
 from rdflib import RDF, ConjunctiveGraph, URIRef
 
 
-def _to_url(uri: URIRef):
+def _to_url(uri: URIRef) -> Optional[str]:
+    """Extract checkable URL from URIRef"""
     str_uri = str(uri)
     if validators.url(str_uri):
         return str_uri
