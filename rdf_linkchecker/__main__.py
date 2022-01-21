@@ -1,14 +1,16 @@
 # type: ignore[attr-defined]
-from typing import Optional
+from typing import List, Optional
 
+import sys
 from enum import Enum
-from random import choice
+from pathlib import Path
 
 import typer
-from rich.console import Console
+from rich import console
 
 from rdf_linkchecker import version
-from rdf_linkchecker.example import hello
+from rdf_linkchecker.checkers.requests import Checker
+from rdf_linkchecker.graph import get_urls
 
 
 class Color(str, Enum):
@@ -25,7 +27,6 @@ app = typer.Typer(
     help="Awesome `rdf-linkchecker` is a Python cli/package created with https://github.com/TezRomacH/python-package-template",
     add_completion=False,
 )
-console = Console()
 
 
 def version_callback(print_version: bool) -> None:
@@ -37,14 +38,21 @@ def version_callback(print_version: bool) -> None:
 
 @app.command(name="")
 def main(
-    name: str = typer.Option(..., help="Person to greet."),
-    color: Optional[Color] = typer.Option(
+    config_file: Optional[Path] = typer.Option(
         None,
-        "-c",
-        "--color",
-        "--colour",
-        case_sensitive=False,
-        help="Color for print. If not specified then choice will be random.",
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        resolve_path=True,
+    ),
+    files: List[Path] = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        resolve_path=True,
     ),
     print_version: bool = typer.Option(
         None,
@@ -55,12 +63,10 @@ def main(
         help="Prints the version of the rdf-linkchecker package.",
     ),
 ) -> None:
-    """Print a greeting with a giving name."""
-    if color is None:
-        color = choice(list(Color))
-
-    greeting: str = hello(name)
-    console.print(f"[bold {color}]{greeting}[/]")
+    """Check URLs in given RDF files"""
+    checker = Checker(config_file)
+    checker.add_urls(get_urls(files))
+    sys.exit(checker.check())
 
 
 if __name__ == "__main__":
