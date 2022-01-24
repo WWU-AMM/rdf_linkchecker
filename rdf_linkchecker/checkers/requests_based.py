@@ -5,25 +5,25 @@ from pathlib import Path
 
 import requests
 
+from rdf_linkchecker.checkers import CONFIG_DEFAULTS
+
 
 class Checker:
     """`requests` based link checker"""
 
-    CONFIG_DEFAULTS = {
-        "connection": {"retries": 1, "timeout": 10},
-        "skip": {"domains": "https://mardi4nfdi.de/,https://mardi4nfdi.de/"},
-    }
-
     def __init__(self, configfile: Optional[Path] = None):
         self.config = configparser.ConfigParser()
-        self.config.read_dict(self.CONFIG_DEFAULTS)
+        self.config.read_dict(CONFIG_DEFAULTS)
         if configfile:
-            self.config.read(files=[configfile])
+            self.config.read(filenames=[configfile])
         self.urls: Set[str] = set()
+        try:
+            self.skip_domains = self.config["skip"]["domains"].split(",")
+        except AttributeError:
+            self.skip_domains = []
 
     def _accept_url(self, url):
-        skip_domains = self.config["skip"]["domains"].split(",")
-        for skip in skip_domains:
+        for skip in self.skip_domains:
             if skip in url:
                 return False
         return True
@@ -60,9 +60,11 @@ class Checker:
 
     def check(self, print_results=True) -> bool:
         results = [self._check_single(u) for u in self.urls]
-        if not print_results:
-            return all(results)
+        if print_results:
+            self.print_results(results)
+        return all(results)
 
+    def print_results(self, results):
         from rich.console import Console
         from rich.table import Table
 

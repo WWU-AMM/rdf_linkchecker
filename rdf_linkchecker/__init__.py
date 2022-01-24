@@ -3,6 +3,8 @@
 
 import sys
 
+import rdf_linkchecker.checkers.requests_based
+
 if sys.version_info >= (3, 8):
     from importlib import metadata as importlib_metadata
 else:

@@ -1,0 +1,90 @@
+# algodata.ttl
+
+##project: MaRDI - Mathematical Research Data Initiative (mardi4nfdi.de)
+##authors: C. Himpe (0000-0003-2194-6754)
+##version: 0.1 (20??-??-??)
+##summary: Algorithm Knowledge Graph definition (AlgoData)
+##license: CC BY-NC 4.0 (creativecommons.org/licenses/by-nc/4.0)
+
+## Namespaces
+
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix dc:      <http://purl.org/spar/datacite/> .
+
+@prefix :        <https://missing.tld/algodata/0.1#> .
+
+: a owl:Ontology .
+
+## Classes
+
+:algorithm a owl:Class ; rdfs:label "Algorithm" .
+
+:problem a owl:Class ; rdfs:label "Problem" .
+
+:software a owl:Class ; rdfs:label "Software" .
+
+:publication a owl:Class ; rdfs:label "Publication" .
+
+:benchmark a owl:Class ; rdfs:label "Benchmark" .
+
+## Properties
+
+# An :algorithm :solves a :problem
+:solves a owl:ObjectProperty ; rdfs:domain :algorithm ; rdfs:range :problem ; rdfs:label "solves|is solved by" .
+
+
+# An :algorithm can be a :variant-of an :algorithm, particularly the domain :algorithm solves the same :problem as the range :algorithm yet in an alternative manner.
+:variant-of a owl:ObjectProperty ; rdfs:domain :algorithm ; rdfs:range :algorithm ; rdfs:label "is a variant of|varies" .
+
+# An :algorithm can be a :modification-of an :algorithm, particularly the domain :algorithm solves the same :problem as the range :algorithm yet with different features.
+:modification-of a owl:ObjectProperty ; rdfs:domain :algorithm ; rdfs:range :algorithm ; rdfs:label "is a modification of|modifies" .
+
+# An :algorithm can be an :extension-of an :algorithm, particularly the domain :algorithm solves a different (but often related) :problem than the range :algorithm.
+:extension-of a owl:ObjectProperty ; rdfs:domain :algorithm ; rdfs:range :algorithm ; rdfs:label "is an extension of|extends" .
+
+
+# An :algorithm or :benchmark is :invented-in a :publication; it may occur that multiple :publications invent the same :algorithm or :benchmark.
+:invented-in a owl:ObjectProperty ; rdfs:domain :algorithm , :benchmark ; rdfs:range :publication ; rdfs:label "is invented in|invents" .
+
+# An :algorithm is :analyzed-in a :publication; this refers to the theoretical analysis of the :algorithm.
+:analyzed-in a owl:ObjectProperty ; rdfs:domain :algorithm ; rdfs:range :publication ; rdfs:label "is analyzed in|analyzes" .
+
+# An :algorithm is :studied-in a :publication; this refers to the numerical testing of the :algorithm.
+:studied-in a owl:ObjectProperty ; rdfs:domain :algorithm ; rdfs:range :publication ; rdfs:label "is studied in|studies" .
+
+# An :algorithm is :used-in a :publication; this refers to the practical application of the :algorithm.
+:used-in a owl:ObjectProperty ; rdfs:domain :algorithm ; rdfs:range :publication ; rdfs:label "is used in|uses" .
+
+# An :algorithm is :reviewed-in a :publication; this refers to the description of the :algorithm in a survey :publication.
+:reviewed-in a owl:ObjectProperty ; rdfs:domain :algorithm ; rdfs:range :publication ; rdfs:label "is reviewed in|reviews" .
+
+
+# A :problem :specializes a :problem; particularly the domain :problem is a special case of the range :problem.
+:specializes a owl:ObjectProperty ; rdfs:domain :problem ; rdfs:range :problem ; rdfs:label "specializes|is specialized by" .
+
+
+# A :software :implements an :algorithm.
+:implements a owl:ObjectProperty ; rdfs:domain :software ; rdfs:range :algorithm ; rdfs:label "implements|is implemented by" .
+
+# A :software :tests a :benchmark, this refers should be verifiable  by the benchmark framework once it is in use TODO:.
+:tests a owl:ObjectProperty ; rdfs:domain :software ; rdfs:range :benchmark ; rdfs:label "tests|is tested by" .
+
+# A :software is :documented-in by a :publication.
+:documented-in a owl:ObjectProperty ; rdfs:domain :software ; rdfs:range :publication ; rdfs:label "is documented in|documents" .
+
+
+# A :benchmark is an :instance-of a :problem.
+:instance-of a owl:ObjectProperty ; rdfs:domain :benchmark ; rdfs:range :problem ; rdfs:label "is instance of|instantiates" .
+
+
+# A :publication, :benchmark, and :software dc:hasIdentifier, particularly a doi:, morwiki: and swmath:.
+dc:hasIdentifier a owl:ObjectProperty ; rdfs:domain :publication , :benchmark , :software ; rdfs:label "has identifier" .
+
+
+## Discuss
+
+#:surveyed-in a owl:ObjectProperty ; rdfs:domain :problem ; rdfs:range :publication ; rdfs:label "is surveyed in|surveys" . # TODO: may be use :documented-in ?
+
+#:based-on a owl:Property ; rdfs:domain :software ; rdfs:range :publication ; rdfs:label "is based on|bases for" # TODO:

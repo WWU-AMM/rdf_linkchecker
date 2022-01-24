@@ -32,7 +32,9 @@ app = typer.Typer(
 def version_callback(print_version: bool) -> None:
     """Print the version of the package."""
     if print_version:
-        console.print(f"[yellow]rdf-linkchecker[/] version: [bold blue]{version}[/]")
+        console.Console().print(
+            f"[yellow]rdf-linkchecker[/] version: [bold blue]{version}[/]"
+        )
         raise typer.Exit()
 
 
