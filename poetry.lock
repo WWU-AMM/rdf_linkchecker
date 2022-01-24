@@ -551,7 +551,7 @@ python-versions = "*"
 
 [[package]]
 name = "pure-eval"
-version = "0.2.1"
+version = "0.2.2"
 description = "Safely evaluate AST nodes without side effects"
 category = "dev"
 optional = false
@@ -1271,8 +1271,8 @@ ptyprocess = [
     {file = "ptyprocess-0.7.0.tar.gz", hash = "sha256:5c5d0a3b48ceee0b48485e0c26037c0acd7d29765ca3fbb5cb3831d347423220"},
 ]
 pure-eval = [
-    {file = "pure_eval-0.2.1-py3-none-any.whl", hash = "sha256:94eeb505a88721bec7bb21a4ac49758b8b1a01530da1a70d4ffc1d9937689d71"},
-    {file = "pure_eval-0.2.1.tar.gz", hash = "sha256:0f04483b16c9429532d2c0ddc96e2b3bb6b2dc37a2bfb0e986248dbfd0b78873"},
+    {file = "pure_eval-0.2.2-py3-none-any.whl", hash = "sha256:01eaab343580944bc56080ebe0a674b39ec44a945e6d09ba7db3cb8cec289350"},
+    {file = "pure_eval-0.2.2.tar.gz", hash = "sha256:2b45320af6dfaa1750f543d714b6d1c520a1688dec6fd24d339063ce0aaa9ac3"},
 ]
 py = [
     {file = "py-1.11.0-py2.py3-none-any.whl", hash = "sha256:607c53218732647dff4acdfcd50cb62615cedf612e72d1724fb1a0cc6405b378"},
