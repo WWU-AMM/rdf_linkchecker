@@ -1,4 +1,4 @@
-"""Ccheker implemented with https://github.com/linkchecker/linkchecker
+"""Checker implemented with https://github.com/linkchecker/linkchecker
 
 Too complex to make it do what simple tasks we need.
 """
@@ -7,15 +7,12 @@ from typing import List, Optional
 
 from pathlib import Path
 
-from linkcheck import LOG_CMDLINE, configuration, log, logconf
-from linkcheck.cmdline import aggregate_url
-from linkcheck.command import linkchecker
-from linkcheck.command.setup_config import setup_config
-from linkcheck.director import check_urls, console, get_aggregate
-
 
 class Checker:
     def __init__(self, configfile: Optional[Path] = None):
+        from linkcheck import configuration, logconf
+        from linkcheck.director import console, get_aggregate
+
         self.config = configuration.Configuration()
         if configfile:
             self.config.read(files=[configfile])
@@ -29,10 +26,14 @@ class Checker:
         self.aggregate = get_aggregate(self.config)
 
     def add_urls(self, urls: List[str]):
+        from linkcheck.cmdline import aggregate_url
+
         for url in urls:
             aggregate_url(aggregate=self.aggregate, url=url)
 
     def check(self):
+        from linkcheck.director import check_urls
+
         check_urls(self.aggregate)
 
         stats = self.config["logger"].stats
