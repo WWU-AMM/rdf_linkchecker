@@ -58,19 +58,34 @@ class Checker:
             return True
         return False
 
-    def check(self, print_results=True) -> bool:
+    def check(self) -> bool:
         results = [self._check_single(u) for u in self.urls]
-        if print_results:
-            self.print_results(results)
+        if self.config["reporting"]["level"] != "none":
+            self.report_results(results)
         return all(results)
 
-    def print_results(self, results):
+    def report_results(self, results):
+        rptg = self.config["reporting"]
+
         from rich.console import Console
         from rich.table import Table
 
         table = Table("URL", "Ok?", title="Checked URLs")
         for url, reachable in zip(self.urls, results):
-            marker = "[green]✓[/green]" if reachable else "[red]x[/red]"
-            table.add_row(url, marker)
-        console = Console()
-        console.print(table)
+            if rptg["level"] == "all" or (
+                rptg["level"] == "only-failed" and not reachable
+            ):
+                marker = "[green]✓[/green]" if reachable else "[red]x[/red]"
+                table.add_row(url, marker)
+
+        def _print(console):
+            if table.row_count:
+                console.print(table)
+
+        if rptg["target"] != "console":
+            with open(rptg["target"], "wt") as report_file:
+                console = Console(file=report_file)
+                _print(console)
+        else:
+            console = Console()
+            _print(console)

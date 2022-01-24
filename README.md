@@ -38,11 +38,15 @@ The `--config-filename` option can be used to pass an `INI`-style file.
 [connection]
 retries = 1
 #seconds
-timeout = 10
+timeout = 3
 
 [skip]
 # any URL matching an entry in this comma separated list is not checked
 domains = https://some.tld/path,http://someother.tld
+
+# level: "all" | "only-failed" | "none"
+# target: "console" | filename
+"reporting": {"level": "all", "target": "console"}
 ```
 
 
