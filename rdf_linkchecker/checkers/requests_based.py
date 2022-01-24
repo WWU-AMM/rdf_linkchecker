@@ -49,7 +49,11 @@ class Checker:
                         return True
                     except requests.exceptions.HTTPError:
                         return False
-            except requests.exceptions.ConnectionError:
+            except (
+                requests.exceptions.ConnectionError,
+                requests.exceptions.Timeout,
+                requests.exceptions.TooManyRedirects,
+            ):
                 return False
 
         for try_no in range(int(con["retries"]) + 1):

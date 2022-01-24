@@ -86,3 +86,15 @@ def test_success_no_console(ttl_files, monkeypatch, caplog):
     checker = Checker()
     checker.check()
     assert caplog.text == ""
+
+
+def test_timeout(monkeypatch):
+    timeout = 4
+    monkeypatch.setitem(
+        rdf_linkchecker.checkers.CONFIG_DEFAULTS,
+        "connection",
+        {"timeout": timeout, "retries": 0},
+    )
+    checker = Checker()
+    checker.add_urls([f"http://httpstat.us/200?sleep={1000*timeout}"])
+    assert not checker.check()
