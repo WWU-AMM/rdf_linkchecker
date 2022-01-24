@@ -68,7 +68,7 @@ def main(
     """Check URLs in given RDF files"""
     checker = Checker(config_file)
     checker.add_urls(get_urls(files))
-    sys.exit(checker.check())
+    sys.exit(int(checker.check()) - 1)
 
 
 if __name__ == "__main__":
