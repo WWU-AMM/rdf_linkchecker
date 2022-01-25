@@ -5,6 +5,8 @@ import operator
 from pathlib import Path
 
 import requests
+from rich.console import Console
+from rich.table import Table
 from user_agent import generate_user_agent
 
 from rdf_linkchecker.checkers import CONFIG_DEFAULTS
@@ -88,17 +90,14 @@ class Checker:
 
     def report_results(self, results):
         rptg = self.config["reporting"]
+        only_failed = rptg["level"] == "only-failed"
 
-        from rich.console import Console
-        from rich.table import Table
-
-        table = Table("URL", "Ok?", title="Checked URLs")
+        title = "Failed URLs" if only_failed else "Checked URLs"
+        table = Table("URL", "Ok?", title=title)
         for url, reachable in sorted(
             zip(self.urls, results), key=operator.itemgetter(0)
         ):
-            if rptg["level"] == "all" or (
-                rptg["level"] == "only-failed" and not reachable
-            ):
+            if rptg["level"] == "all" or (only_failed and not reachable):
                 marker = "[green]✓[/green]" if reachable else "[red]x[/red]"
                 table.add_row(url, marker)
 
