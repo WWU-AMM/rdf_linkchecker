@@ -16,3 +16,18 @@ def test_success(ttl_files, shared_datadir):
     args = ["--config-file", f"{cfn}"] + [str(t) for t in ttl_files]
     result = runner.invoke(app, args)
     assert result.exit_code == 0
+
+
+def test_help():
+    runner = CliRunner()
+    result = runner.invoke(app, ["--help"])
+    assert result.exit_code == 0
+
+
+def test_version():
+    from rdf_linkchecker import version
+
+    runner = CliRunner()
+    result = runner.invoke(app, ["--version"])
+    assert result.exit_code == 0
+    assert version in result.output
