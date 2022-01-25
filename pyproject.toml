@@ -5,7 +5,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "rdf-linkchecker"
-version = "1.2.2"
+version = "2.0.0"
 description = "Awesome `rdf-linkchecker` is a Python cli/package created with https://github.com/TezRomacH/python-package-template"
 readme = "README.md"
 authors = ["WWU-AMM <rene.fritze@wwu.de>"]
