@@ -1,6 +1,7 @@
 from typing import List, Optional, Set
 
 import configparser
+import operator
 from pathlib import Path
 
 import requests
@@ -71,7 +72,9 @@ class Checker:
         from rich.table import Table
 
         table = Table("URL", "Ok?", title="Checked URLs")
-        for url, reachable in zip(self.urls, results):
+        for url, reachable in sorted(
+            zip(self.urls, results), key=operator.itemgetter(0)
+        ):
             if rptg["level"] == "all" or (
                 rptg["level"] == "only-failed" and not reachable
             ):
