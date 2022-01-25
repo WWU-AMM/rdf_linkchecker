@@ -96,5 +96,22 @@ def test_timeout(monkeypatch):
         {"timeout": timeout, "retries": 0},
     )
     checker = Checker()
-    checker.add_urls([f"http://httpstat.us/200?sleep={1000*timeout}"])
+    checker.add_urls([f"http://httpstat.us/200?sleep={2000*timeout}"])
     assert not checker.check()
+
+
+def test_owl_file():
+    checker = Checker()
+    checker.add_urls(["https://www.w3.org/2002/07/owl"])
+    assert checker.check()
+
+
+def test_wiley():
+    # this URL fails if the brotli package isn't available for aiohttp to use
+    checker = Checker()
+    checker.add_urls(
+        [
+            "https://www.wiley.com/en-ae/An+Introduction+to+Numerical+Methods+and+Analysis,+2nd+Edition-p-9781118367599"
+        ]
+    )
+    assert checker.check()

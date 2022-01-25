@@ -1,10 +1,11 @@
 from typing import List, Optional, Set
 
+import asyncio
 import configparser
 import operator
 from pathlib import Path
 
-import requests
+import aiohttp
 from rich.console import Console
 from rich.table import Table
 from user_agent import generate_user_agent
@@ -22,6 +23,7 @@ _SESSION_HEADER = {
     "Referer": "https://www.google.com/",
     "Accept-Encoding": "gzip, deflate, br",
     "Accept-Language": "en-US,en;q=0.9",
+    "User-Agent": generate_user_agent(),
 }
 
 
@@ -38,9 +40,7 @@ class Checker:
             self.skip_domains = self.config["skip"]["domains"].split(",")
         except AttributeError:
             self.skip_domains = []
-        self._session = requests.Session()
-        self._session.headers.update(_SESSION_HEADER)
-        self._session.headers.update({"User-Agent": generate_user_agent()})
+        self._session = None
 
     def _accept_url(self, url):
         for skip in self.skip_domains:
@@ -52,41 +52,47 @@ class Checker:
         upd = {u for u in urls if self._accept_url(u)}
         self.urls.update(upd)
 
-    def _check_single(self, url) -> bool:
+    async def _check_single(self, url: str, session: aiohttp.ClientSession) -> bool:
         """Return True if resource request succeeded, else False
 
         Uses the streaming version to cut down on dl size/time
         """
         con = self.config["connection"]
 
-        def _check():
+        async def _check():
             try:
-                with self._session.get(
-                    url, timeout=int(con["timeout"]), stream=True
-                ) as response:
-                    try:
-                        response.raise_for_status()
-                        return True
-                    except requests.exceptions.HTTPError:
-                        return False
-            except (
-                requests.exceptions.ConnectionError,
-                requests.exceptions.Timeout,
-                requests.exceptions.TooManyRedirects,
-            ):
+                timeout = aiohttp.ClientTimeout(total=int(con["timeout"]))
+                async with session.get(url, timeout=timeout) as response:
+                    response.raise_for_status()
+                    return True
+            except (aiohttp.ClientError, asyncio.TimeoutError) as e:
                 return False
 
         for try_no in range(int(con["retries"]) + 1):
-            if not _check():
+            if not await _check():
                 continue
             return True
         return False
 
+    async def _check(self):
+        if len(self.urls) == 0:
+            # we cannot await an empty tasks list
+            tasks = []
+        else:
+            async with aiohttp.ClientSession(headers=_SESSION_HEADER) as session:
+                tasks = [
+                    asyncio.ensure_future(self._check_single(u, session=session))
+                    for u in self.urls
+                ]
+                await asyncio.wait(tasks)
+        self.results = [t.result() for t in tasks]
+
     def check(self) -> bool:
-        results = [self._check_single(u) for u in self.urls]
+        loop = asyncio.get_event_loop()
+        loop.run_until_complete(self._check())
         if self.config["reporting"]["level"] != "none":
-            self.report_results(results)
-        return all(results)
+            self.report_results(self.results)
+        return all(self.results)
 
     def report_results(self, results):
         rptg = self.config["reporting"]
