@@ -8,7 +8,8 @@ from rdflib import RDF, ConjunctiveGraph, URIRef
 
 def _to_url(uri: URIRef) -> Optional[str]:
     """Extract checkable URL from URIRef"""
-    str_uri = str(uri)
+    # only consider the URL part before a potential '#'
+    str_uri = str(uri.defrag())
     if validators.url(str_uri):
         return str_uri
     return None
