@@ -41,6 +41,7 @@ rich = "^11.0.0"
 rdflib = "^6.1.1"
 requests = "^2.27.1"
 validators = "^0.18.2"
+user-agent = "^0.1.10"
 
 [tool.poetry.dev-dependencies]
 bandit = "^1.7.1"
