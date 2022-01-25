@@ -70,6 +70,7 @@ class Checker:
 
         for try_no in range(int(con["retries"]) + 1):
             if not await _check():
+                await asyncio.sleep(2)
                 continue
             return True
         return False
