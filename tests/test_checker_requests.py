@@ -106,7 +106,13 @@ def test_owl_file():
     assert checker.check()
 
 
-def test_wiley():
+def test_wiley(monkeypatch):
+    # this url is also pretty flaky, so more timeout and retries
+    monkeypatch.setitem(
+        rdf_linkchecker.checkers.CONFIG_DEFAULTS,
+        "connection",
+        {"timeout": 5, "retries": 4},
+    )
     # this URL fails if the brotli package isn't available for aiohttp to use
     checker = Checker()
     checker.add_urls(
