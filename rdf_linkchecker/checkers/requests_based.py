@@ -108,7 +108,7 @@ class Checker:
         title = "Failed URLs" if only_failed else "Checked URLs"
         table = Table("URL", "Ok?", "Reason", title=title)
         for url, error in sorted(zip(self.urls, results), key=operator.itemgetter(0)):
-            if rptg["level"] == "all" or (only_failed and error is None):
+            if rptg["level"] == "all" or (only_failed and error is not None):
                 if error is None:
                     table.add_row(url, "[green]✓[/green]", "")
                 else:
