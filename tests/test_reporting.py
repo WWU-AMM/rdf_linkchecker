@@ -4,7 +4,7 @@ import rdf_linkchecker.checkers
 from rdf_linkchecker.checkers.requests_based import Checker
 
 
-def test_no_output_term(ttl_files, monkeypatch, caplog):
+def test_no_output_term(ttl_files, monkeypatch, capsys):
     monkeypatch.setitem(
         rdf_linkchecker.checkers.CONFIG_DEFAULTS,
         "reporting",
@@ -12,7 +12,8 @@ def test_no_output_term(ttl_files, monkeypatch, caplog):
     )
     checker = Checker()
     checker.check()
-    assert caplog.text == ""
+    captured = capsys.readouterr()
+    assert captured.err == captured.out == ""
 
 
 def test_no_output_term(ttl_files, monkeypatch, tmp_path):
@@ -41,7 +42,7 @@ def test_success_no_out(ttl_files, monkeypatch, tmp_path):
     assert fn.read_text() == ""
 
 
-def test_success_no_console(ttl_files, monkeypatch, caplog):
+def test_success_no_console(ttl_files, monkeypatch, capsys):
     monkeypatch.setitem(
         rdf_linkchecker.checkers.CONFIG_DEFAULTS,
         "reporting",
@@ -49,4 +50,22 @@ def test_success_no_console(ttl_files, monkeypatch, caplog):
     )
     checker = Checker()
     checker.check()
-    assert caplog.text == ""
+    captured = capsys.readouterr()
+    assert captured.err == captured.out == ""
+
+
+def test_success_no_console_with_failed(ttl_files, monkeypatch, capsys):
+    monkeypatch.setitem(
+        rdf_linkchecker.checkers.CONFIG_DEFAULTS,
+        "reporting",
+        {"level": "only-failed", "target": "console"},
+    )
+    checker = Checker()
+
+    fake = "https://notarealy.url"
+    good = "https://google.de"
+    checker.add_urls([fake, good])
+    checker.check()
+    captured = capsys.readouterr()
+    assert fake in captured.out
+    assert good not in captured.out
