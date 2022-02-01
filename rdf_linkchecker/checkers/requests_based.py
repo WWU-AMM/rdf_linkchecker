@@ -67,6 +67,8 @@ class Checker:
                 async with session.get(url, timeout=timeout) as response:
                     response.raise_for_status()
                     return None
+            except aiohttp.client.TooManyRedirects:
+                return "Too many redirects"
             except aiohttp.client.ClientResponseError as cre:
                 if cre.message == "":
                     cre.message = HTTPStatus(cre.status).phrase
