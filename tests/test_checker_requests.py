@@ -89,11 +89,11 @@ def test_success_no_console(ttl_files, monkeypatch, caplog):
 
 
 def test_timeout(monkeypatch):
-    timeout = 4
+    timeout = 2
     monkeypatch.setitem(
         rdf_linkchecker.checkers.CONFIG_DEFAULTS,
         "connection",
-        {"timeout": timeout, "retries": 0},
+        {"timeout": timeout, "retries": 2, "sleep": 1},
     )
     checker = Checker()
     checker.add_urls([f"http://httpstat.us/200?sleep={2000*timeout}"])
@@ -106,7 +106,8 @@ def test_owl_file():
     assert checker.check()
 
 
-def test_wiley():
+def test_wiley(increase_timeout):
+    # this url is also pretty flaky, so more timeout and retries
     # this URL fails if the brotli package isn't available for aiohttp to use
     checker = Checker()
     checker.add_urls(
