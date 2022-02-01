@@ -1,3 +1,5 @@
+import pytest
+
 import rdf_linkchecker.checkers
 from rdf_linkchecker.checkers.requests_based import Checker
 from rdf_linkchecker.graph import get_urls
@@ -56,13 +58,20 @@ def test_owl_file():
     assert checker.check()
 
 
-def test_wiley(increase_timeout):
-    # this url is also pretty flaky, so more timeout and retries
+def test_wiley(increase_timeout, monkeypatch, tmp_path):
     # this URL fails if the brotli package isn't available for aiohttp to use
-    checker = Checker()
-    checker.add_urls(
-        [
-            "https://www.wiley.com/en-ae/An+Introduction+to+Numerical+Methods+and+Analysis,+2nd+Edition-p-9781118367599"
-        ]
+    # wiley also rate limits requests, so it might 403 instead
+    fn = tmp_path / "wiley.log"
+    monkeypatch.setitem(
+        rdf_linkchecker.checkers.CONFIG_DEFAULTS,
+        "reporting",
+        {"level": "only-failed", "target": fn},
     )
-    assert checker.check()
+    checker = Checker()
+    wiley = "https://www.wiley.com/en-ae/An+Introduction+to+Numerical+Methods+and+Analysis,+2nd+Edition-p-9781118367599"
+    checker.add_urls([wiley])
+    if not checker.check():
+        # failure is only OK if reason is 403
+        captured = fn.read_text()
+        assert wiley in captured
+        assert "403" in captured
