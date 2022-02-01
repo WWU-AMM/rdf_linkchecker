@@ -4,6 +4,7 @@ import asyncio
 import configparser
 import math
 import operator
+from http import HTTPStatus
 from pathlib import Path
 
 import aiohttp
@@ -67,6 +68,8 @@ class Checker:
                     response.raise_for_status()
                     return None
             except aiohttp.client.ClientResponseError as cre:
+                if cre.message == "":
+                    cre.message = HTTPStatus(cre.status).phrase
                 return f"Status: {cre.status} | {cre.message}"
             except aiohttp.client.ClientConnectorError as cce:
                 return f"OS Error {cce.os_error.strerror}"
