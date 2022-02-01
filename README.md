@@ -39,6 +39,9 @@ The `--config-filename` option can be used to pass an `INI`-style file.
 retries = 1
 #seconds
 timeout = 3
+# first sleep in seconds between retries
+# exponential backoff afterwards
+sleep =1
 
 [skip]
 # any URL matching an entry in this comma separated list is not checked

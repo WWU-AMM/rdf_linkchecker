@@ -2,6 +2,7 @@ from typing import List, Optional, Set
 
 import asyncio
 import configparser
+import math
 import operator
 from pathlib import Path
 
@@ -68,9 +69,13 @@ class Checker:
             except (aiohttp.ClientError, asyncio.TimeoutError) as e:
                 return False
 
+        sleep_ms = float(con["sleep"]) * 1000
+        sleep_fac = 2
         for try_no in range(int(con["retries"]) + 1):
             if not await _check():
-                await asyncio.sleep(2)
+                await asyncio.sleep(
+                    math.ceil(sleep_ms * math.pow(sleep_fac, try_no) / 1000)
+                )
                 continue
             return True
         return False
