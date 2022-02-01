@@ -65,20 +65,21 @@ class Checker:
                 timeout = aiohttp.ClientTimeout(total=int(con["timeout"]))
                 async with session.get(url, timeout=timeout) as response:
                     response.raise_for_status()
-                    return True
+                    return None
             except (aiohttp.ClientError, asyncio.TimeoutError) as e:
-                return False
+                return e
 
         sleep_ms = float(con["sleep"]) * 1000
         sleep_fac = 2
-        for try_no in range(int(con["retries"]) + 1):
-            if not await _check():
-                await asyncio.sleep(
-                    math.ceil(sleep_ms * math.pow(sleep_fac, try_no) / 1000)
-                )
-                continue
-            return True
-        return False
+        retries = min(0, int(con["retries"]))
+        for try_no in range(retries + 1):
+            err = await _check()
+            if err is None:
+                return None
+            await asyncio.sleep(
+                math.ceil(sleep_ms * math.pow(sleep_fac, try_no) / 1000)
+            )
+        return err
 
     async def _check(self):
         if len(self.urls) == 0:
@@ -98,24 +99,24 @@ class Checker:
         loop.run_until_complete(self._check())
         if self.config["reporting"]["level"] != "none":
             self.report_results(self.results)
-        return all(self.results)
+        return all(r is None for r in self.results)
 
     def report_results(self, results):
         rptg = self.config["reporting"]
         only_failed = rptg["level"] == "only-failed"
 
         title = "Failed URLs" if only_failed else "Checked URLs"
-        table = Table("URL", "Ok?", title=title)
-        for url, reachable in sorted(
-            zip(self.urls, results), key=operator.itemgetter(0)
-        ):
-            if rptg["level"] == "all" or (only_failed and not reachable):
-                marker = "[green]✓[/green]" if reachable else "[red]x[/red]"
-                table.add_row(url, marker)
+        table = Table("URL", "Ok?", "Reason", title=title)
+        for url, error in sorted(zip(self.urls, results), key=operator.itemgetter(0)):
+            if rptg["level"] == "all" or (only_failed and error is None):
+                if error is None:
+                    table.add_row(url, "[green]✓[/green]", "")
+                else:
+                    table.add_row(url, "[red]x[/red]", str(error))
 
-        def _print(console):
+        def _print(_console):
             if table.row_count:
-                console.print(table)
+                _console.print(table)
 
         if rptg["target"] != "console":
             with open(rptg["target"], "wt") as report_file:
