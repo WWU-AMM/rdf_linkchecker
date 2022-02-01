@@ -66,8 +66,14 @@ class Checker:
                 async with session.get(url, timeout=timeout) as response:
                     response.raise_for_status()
                     return None
-            except (aiohttp.ClientError, asyncio.TimeoutError) as e:
-                return e
+            except aiohttp.client.ClientResponseError as cre:
+                return f"Status: {cre.status} | {cre.message}"
+            except aiohttp.client.ClientConnectorError as cce:
+                return f"OS Error {cce.os_error.strerror}"
+            except asyncio.TimeoutError:
+                return f"Timeout after {con['timeout']} seconds"
+            except Exception as e:
+                return f"Non-specific reason: {str(e)}"
 
         sleep_ms = float(con["sleep"]) * 1000
         sleep_fac = 2
@@ -110,9 +116,10 @@ class Checker:
         for url, error in sorted(zip(self.urls, results), key=operator.itemgetter(0)):
             if rptg["level"] == "all" or (only_failed and error is not None):
                 if error is None:
-                    table.add_row(url, "[green]✓[/green]", "")
+                    table.add_row(url, "[green]✓[/green]")
                 else:
-                    table.add_row(url, "[red]x[/red]", str(error))
+                    table.add_row(url, "[red]x[/red]")
+                    table.add_row(error, "")
 
         def _print(_console):
             if table.row_count:
