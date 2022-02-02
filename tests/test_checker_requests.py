@@ -40,54 +40,6 @@ def test_deduplication(ttl_files):
     assert len(checker.urls) <= len(urls)
 
 
-def test_no_output_term(ttl_files, monkeypatch, caplog):
-    monkeypatch.setitem(
-        rdf_linkchecker.checkers.CONFIG_DEFAULTS,
-        "reporting",
-        {"level": "none", "target": "console"},
-    )
-    checker = Checker()
-    checker.check()
-    assert caplog.text == ""
-
-
-def test_no_output_term(ttl_files, monkeypatch, tmp_path):
-    fn = tmp_path / "empty.log"
-    monkeypatch.setitem(
-        rdf_linkchecker.checkers.CONFIG_DEFAULTS,
-        "reporting",
-        {"level": "none", "target": str(fn)},
-    )
-    checker = Checker()
-    checker.check()
-    # file should not be created at all
-    with pytest.raises(FileNotFoundError):
-        assert fn.read_text()
-
-
-def test_success_no_out(ttl_files, monkeypatch, tmp_path):
-    fn = tmp_path / "empty.log"
-    monkeypatch.setitem(
-        rdf_linkchecker.checkers.CONFIG_DEFAULTS,
-        "reporting",
-        {"level": "only-failed", "target": str(fn)},
-    )
-    checker = Checker()
-    checker.check()
-    assert fn.read_text() == ""
-
-
-def test_success_no_console(ttl_files, monkeypatch, caplog):
-    monkeypatch.setitem(
-        rdf_linkchecker.checkers.CONFIG_DEFAULTS,
-        "reporting",
-        {"level": "only-failed", "target": "console"},
-    )
-    checker = Checker()
-    checker.check()
-    assert caplog.text == ""
-
-
 def test_timeout(monkeypatch):
     timeout = 2
     monkeypatch.setitem(
@@ -106,13 +58,20 @@ def test_owl_file():
     assert checker.check()
 
 
-def test_wiley(increase_timeout):
-    # this url is also pretty flaky, so more timeout and retries
+def test_wiley(increase_timeout, monkeypatch, tmp_path):
     # this URL fails if the brotli package isn't available for aiohttp to use
-    checker = Checker()
-    checker.add_urls(
-        [
-            "https://www.wiley.com/en-ae/An+Introduction+to+Numerical+Methods+and+Analysis,+2nd+Edition-p-9781118367599"
-        ]
+    # wiley also rate limits requests, so it might 403 instead
+    fn = tmp_path / "wiley.log"
+    monkeypatch.setitem(
+        rdf_linkchecker.checkers.CONFIG_DEFAULTS,
+        "reporting",
+        {"level": "only-failed", "target": fn},
     )
-    assert checker.check()
+    checker = Checker()
+    wiley = "https://www.wiley.com/en-ae/An+Introduction+to+Numerical+Methods+and+Analysis,+2nd+Edition-p-9781118367599"
+    checker.add_urls([wiley])
+    if not checker.check():
+        # failure is only OK if reason is 403
+        captured = fn.read_text()
+        assert wiley in captured
+        assert "403" in captured

@@ -8,8 +8,8 @@
 
 ## Namespaces
 
-@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf:     <https://wwu-amm.github.io/files/mardi/22-rdf-syntax-ns#> .
+@prefix rdfs:    <https://wwu-amm.github.io/files/mardi/rdf-schema#> .
 @prefix dc:      <http://purl.org/spar/datacite/> .
 
 @prefix pb:      <https://missing.tld/algodata/0.1/publication#> .
@@ -34,14 +34,8 @@ pb:Hou64 a :publication ; rdfs:label "Householder (1964) Theory of Matrices in N
 pb:You71 a :publication ; rdfs:label "Young (1971) Iterative Solution of Large Linear Systems" ;
   dc:hasIdentifier doi:10.1016\/C2013\-0\-11733\-3 .
 
-pb:Atk91 a :publication ; rdfs:label "Atkinson (1991) An Introduction to Numerical Analysis" ;
-  dc:hasIdentifier <https://www.wiley.com/en-us/An+Introduction+to+Numerical+Analysis%2C+2nd+Edition-p-9780471624899> .
-
 pb:GolV13 a :publication ; rdfs:label "Golub, Van Loan (2013) Matrix Computations" ;
   dc:hasIdentifier <https://jhupbooks.press.jhu.edu/title/matrix-computations> .
-
-pb:Epp13 a :publication ; rdfs:label "Epperson (2013) An Introduction to Numerical Methods and Analysis" ;
-  dc:hasIdentifier <https://www.wiley.com/en-ae/An+Introduction+to+Numerical+Methods+and+Analysis,+2nd+Edition-p-9781118367599> .
 
 pb:Hac16 a :publication ; rdfs:label "Hackbusch (2016) Iterative Solution of Large Sparse Systems of Equations" ;
   dc:hasIdentifier doi:10.1007\/978\-3\-319\-28483\-5 .
