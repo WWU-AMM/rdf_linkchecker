@@ -54,11 +54,11 @@ def test_timeout(monkeypatch):
 
 def test_owl_file():
     checker = Checker()
-    checker.add_urls(["https://www.w3.org/2002/07/owl"])
+    checker.add_urls(["https://wwu-amm.github.io/files/mardi/owl"])
     assert checker.check()
 
 
-def test_wiley(increase_timeout, monkeypatch, tmp_path):
+def test_wiley(monkeypatch, tmp_path):
     # this URL fails if the brotli package isn't available for aiohttp to use
     # wiley also rate limits requests, so it might 403 instead
     fn = tmp_path / "wiley.log"

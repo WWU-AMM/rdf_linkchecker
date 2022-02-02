@@ -15,3 +15,8 @@ def increase_timeout(monkeypatch):
         "connection",
         {"timeout": 6, "retries": 3, "sleep": 1},
     )
+    monkeypatch.setitem(
+        rdf_linkchecker.checkers.CONFIG_DEFAULTS,
+        "skip",
+        {"domains": "http://www.w3.org"},
+    )
