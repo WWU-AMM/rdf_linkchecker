@@ -54,7 +54,7 @@ def test_timeout(monkeypatch):
 
 def test_owl_file():
     checker = Checker()
-    checker.add_urls(["https://www.w3.org/2002/07/owl"])
+    checker.add_urls(["https://wwu-amm.github.io/files/mardi/owl"])
     assert checker.check()
 
 
