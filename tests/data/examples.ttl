@@ -8,8 +8,8 @@
 
 ## Namespaces
 
-@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf:     <https://wwu-amm.github.io/files/mardi/22-rdf-syntax-ns#> .
+@prefix rdfs:    <https://wwu-amm.github.io/files/mardi/rdf-schema#> .
 @prefix dc:      <http://purl.org/spar/datacite/> .
 
 @prefix pb:      <https://missing.tld/algodata/0.1/publication#> .

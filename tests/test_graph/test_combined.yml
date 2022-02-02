@@ -3,12 +3,6 @@ urls:
 - http://purl.org/spar/datacite/hasIdentifier
 - http://www.hpcg-benchmark.org/
 - http://www.w3.org/1999/02/22-rdf-syntax-ns
-- http://www.w3.org/2000/01/rdf-schema
-- http://www.w3.org/2000/01/rdf-schema
-- http://www.w3.org/2000/01/rdf-schema
-- http://www.w3.org/2002/07/owl
-- http://www.w3.org/2002/07/owl
-- http://www.w3.org/2002/07/owl
 - https://doi.org/
 - https://doi.org/10.1007/978-3-319-28483-5
 - https://doi.org/10.1016/C2013-0-11733-3
@@ -43,3 +37,9 @@ urls:
 - https://missing.tld/algodata/0.1/software
 - https://swmath.org/software/4218
 - https://swmath.org/software/503
+- https://wwu-amm.github.io/files/mardi/owl
+- https://wwu-amm.github.io/files/mardi/owl
+- https://wwu-amm.github.io/files/mardi/owl
+- https://wwu-amm.github.io/files/mardi/rdf-schema
+- https://wwu-amm.github.io/files/mardi/rdf-schema
+- https://wwu-amm.github.io/files/mardi/rdf-schema
