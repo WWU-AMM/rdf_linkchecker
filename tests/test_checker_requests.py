@@ -73,5 +73,5 @@ def test_wiley(monkeypatch, tmp_path):
     if not checker.check():
         # failure is only OK if reason is 403
         captured = fn.read_text()
-        assert wiley in captured
+        assert wiley[:15] in captured
         assert "403" in captured
