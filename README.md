@@ -50,6 +50,12 @@ domains = https://some.tld/path,http://someother.tld
 # level: "all" | "only-failed" | "none"
 # target: "console" | filename
 "reporting": {"level": "all", "target": "console"}
+
+[custom-rules]
+# the python lambda will receive a single argument, the url to check
+# the lamda should return `True` to pass the check
+# name = python lambda
+non_null_fragment = lambda url: not url.endswith('#')
 ```
 
 

@@ -9,7 +9,6 @@ import typer
 from rich import console
 
 from rdf_linkchecker import version
-from rdf_linkchecker.checkers.requests_based import Checker
 from rdf_linkchecker.graph import get_urls
 
 
@@ -38,8 +37,8 @@ def version_callback(print_version: bool) -> None:
         raise typer.Exit()
 
 
-@app.command(name="")
-def main(
+@app.command()
+def check(
     config_file: Optional[Path] = typer.Option(
         None,
         exists=True,
@@ -66,7 +65,46 @@ def main(
     ),
 ) -> None:
     """Check URLs in given RDF files"""
-    checker = Checker(config_file)
+    from rdf_linkchecker.checkers.requests_based import Checker
+
+    _check(Checker, config_file, files)
+
+
+@app.command()
+def validate_custom(
+    config_file: Optional[Path] = typer.Option(
+        None,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        resolve_path=True,
+    ),
+    files: List[Path] = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        resolve_path=True,
+    ),
+    print_version: bool = typer.Option(
+        None,
+        "-v",
+        "--version",
+        callback=version_callback,
+        is_eager=True,
+        help="Prints the version of the rdf-linkchecker package.",
+    ),
+) -> None:
+    """Validate URLs with custom rules in given RDF files"""
+    from rdf_linkchecker.checkers.custom_rules import Checker
+
+    _check(Checker, config_file, files)
+
+
+def _check(checker_imp, config_file, files):
+    checker = checker_imp(config_file)
     checker.add_urls(get_urls(files))
     sys.exit(int(checker.check()) - 1)
 
