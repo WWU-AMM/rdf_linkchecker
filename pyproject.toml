@@ -43,6 +43,7 @@ validators = "^0.18.2"
 user-agent = "^0.1.10"
 aiohttp = "^3.8.1"
 Brotli = "^1.0.9"
+click = "~8.0.0"
 
 [tool.poetry.dev-dependencies]
 bandit = "^1.7.4"
