@@ -74,7 +74,7 @@ class Checker:
                     cre.message = HTTPStatus(cre.status).phrase
                 return f"Status: {cre.status} | {cre.message}"
             except aiohttp.client.ClientConnectorError as cce:
-                return f"OS Error {cce.os_error.strerror}"
+                return f"Client Error:\n{str(cce)}"
             except asyncio.TimeoutError:
                 return f"Timeout after {con['timeout']} seconds"
             except Exception as e:
