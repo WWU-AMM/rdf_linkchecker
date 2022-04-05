@@ -34,9 +34,6 @@ pb:Hou64 a :publication ; rdfs:label "Householder (1964) Theory of Matrices in N
 pb:You71 a :publication ; rdfs:label "Young (1971) Iterative Solution of Large Linear Systems" ;
   dc:hasIdentifier doi:10.1016\/C2013\-0\-11733\-3 .
 
-pb:GolV13 a :publication ; rdfs:label "Golub, Van Loan (2013) Matrix Computations" ;
-  dc:hasIdentifier <https://jhupbooks.press.jhu.edu/title/matrix-computations> .
-
 pb:Hac16 a :publication ; rdfs:label "Hackbusch (2016) Iterative Solution of Large Sparse Systems of Equations" ;
   dc:hasIdentifier doi:10.1007\/978\-3\-319\-28483\-5 .
 
