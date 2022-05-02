@@ -39,7 +39,7 @@ python-versions = "*"
 
 [[package]]
 name = "astroid"
-version = "2.11.3"
+version = "2.11.4"
 description = "An abstract syntax tree for Python with inference support."
 category = "dev"
 optional = false
@@ -1166,8 +1166,8 @@ appnope = [
     {file = "appnope-0.1.3.tar.gz", hash = "sha256:02bd91c4de869fbb1e1c50aafc4098827a7a54ab2f39d9dcba6c9547ed920e24"},
 ]
 astroid = [
-    {file = "astroid-2.11.3-py3-none-any.whl", hash = "sha256:f1af57483cd17e963b2eddce8361e00fc593d1520fe19948488e94ff6476bd71"},
-    {file = "astroid-2.11.3.tar.gz", hash = "sha256:4e5ba10571e197785e312966ea5efb2f5783176d4c1a73fa922d474ae2be59f7"},
+    {file = "astroid-2.11.4-py3-none-any.whl", hash = "sha256:da0632b7c046d8361dfe1b1abb2e085a38624961fabe2997565a9c06c1be9d9a"},
+    {file = "astroid-2.11.4.tar.gz", hash = "sha256:561dc6015eecce7e696ff7e3b40434bc56831afeff783f0ea853e19c4f635c06"},
 ]
 asttokens = [
     {file = "asttokens-2.0.5-py2.py3-none-any.whl", hash = "sha256:0844691e88552595a6f4a4281a9f7f79b8dd45ca4ccea82e5e05b4bbdb76705c"},
