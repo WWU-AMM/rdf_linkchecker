@@ -39,7 +39,7 @@ importlib_metadata = {version = "^4.5.0", python = "<3.8"}
 typer = {extras = ["all"], version = "^0.4.0"}
 rich = ">=11,<13"
 rdflib = "^6.1.1"
-validators = "^0.18.2"
+validators = "^0.19.0"
 user-agent = "^0.1.10"
 aiohttp = "^3.8.1"
 Brotli = "^1.0.9"
