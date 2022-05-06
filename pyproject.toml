@@ -5,7 +5,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "rdf-linkchecker"
-version = "3.1.1"
+version = "3.2.0"
 description = "`rdf-linkchecker` checks URL in RDF files for reachability"
 readme = "README.md"
 authors = ["WWU-AMM <rene.fritze@wwu.de>"]
