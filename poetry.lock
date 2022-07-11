@@ -791,7 +791,7 @@ num = ["numpy", "pandas"]
 
 [[package]]
 name = "pyupgrade"
-version = "2.34.0"
+version = "2.37.1"
 description = "A tool to automatically upgrade syntax for newer versions."
 category = "dev"
 optional = false
@@ -1114,7 +1114,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "5afec33c1744681759383e8861271bb73de64a0d01d0c6f76f7bfc408deef984"
+content-hash = "2f10db2040a433637ce23e28fe0b0b2a27d95d39cb05614f43cd3563a67ac1cc"
 
 [metadata.files]
 aiohttp = []
