@@ -1001,7 +1001,7 @@ test = ["pre-commit", "pytest"]
 
 [[package]]
 name = "typer"
-version = "0.5.0"
+version = "0.6.1"
 description = "Typer, build great CLIs. Easy to code. Based on Python type hints."
 category = "main"
 optional = false
@@ -1114,7 +1114,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "2f10db2040a433637ce23e28fe0b0b2a27d95d39cb05614f43cd3563a67ac1cc"
+content-hash = "076d96e1389703c3d08db74041dc7f9da09166c5f8a918a11be598efd374012a"
 
 [metadata.files]
 aiohttp = [
@@ -1875,8 +1875,8 @@ traitlets = [
     {file = "traitlets-5.3.0.tar.gz", hash = "sha256:0bb9f1f9f017aa8ec187d8b1b2a7a6626a2a1d877116baba52a129bfa124f8e2"},
 ]
 typer = [
-    {file = "typer-0.5.0-py3-none-any.whl", hash = "sha256:a34409c0029ba7e48cb9e4f54c6400bf4158a6145b5dea32788e7a36ebbcb312"},
-    {file = "typer-0.5.0.tar.gz", hash = "sha256:4c285a5585c94d32c305444af934f0078b6a8ba91464f3f85807c91cd499d195"},
+    {file = "typer-0.6.1-py3-none-any.whl", hash = "sha256:54b19e5df18654070a82f8c2aa1da456a4ac16a2a83e6dcd9f170e291c56338e"},
+    {file = "typer-0.6.1.tar.gz", hash = "sha256:2d5720a5e63f73eaf31edaa15f6ab87f35f0690f8ca233017d7d23d743a91d73"},
 ]
 typing-extensions = [
     {file = "typing_extensions-4.3.0-py3-none-any.whl", hash = "sha256:25642c956049920a5aa49edcdd6ab1e06d7e5d467fc00e0506c44ac86fbfca02"},
