@@ -68,7 +68,9 @@ def test_wiley(monkeypatch, tmp_path):
         {"level": "only-failed", "target": fn},
     )
     checker = Checker()
-    wiley = "https://www.wiley.com/en-ae/An+Introduction+to+Numerical+Methods+and+Analysis,+2nd+Edition-p-9781118367599"
+    wiley = (
+        "https://www.wiley.com/en-ae/An+Introduction+to+Numerical+Methods+and+Analysis,+2nd+Edition-p-9781118367599"
+    )
     checker.add_urls([wiley])
     if not checker.check():
         # failure is only OK if reason is 403

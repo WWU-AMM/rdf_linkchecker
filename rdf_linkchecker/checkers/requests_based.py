@@ -87,9 +87,7 @@ class Checker:
             err = await _check()
             if err is None:
                 return None
-            await asyncio.sleep(
-                math.ceil(sleep_ms * math.pow(sleep_fac, try_no) / 1000)
-            )
+            await asyncio.sleep(math.ceil(sleep_ms * math.pow(sleep_fac, try_no) / 1000))
         return err
 
     async def _check(self):
@@ -98,10 +96,7 @@ class Checker:
             tasks = []
         else:
             async with aiohttp.ClientSession(headers=_SESSION_HEADER) as session:
-                tasks = [
-                    asyncio.ensure_future(self._check_single(u, session=session))
-                    for u in self.urls
-                ]
+                tasks = [asyncio.ensure_future(self._check_single(u, session=session)) for u in self.urls]
                 await asyncio.wait(tasks)
         self.results = [t.result() for t in tasks]
 
