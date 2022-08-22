@@ -5,9 +5,9 @@ default_context:
   project_description: "Awesome `rdf-linkchecker` is a Python cli/package created with https://github.com/TezRomacH/python-package-template"
   organization: "WWU-AMM"
   license: "BSD-3"
-  minimal_python_version: 3.7
+  minimal_python_version: 3.8
   github_name: "renefritze"
   email: "rene.fritze@wwu.de"
   version: "0.1.0"
-  line_length: "88"
+  line_length: "119"
   create_example_template: "cli"
