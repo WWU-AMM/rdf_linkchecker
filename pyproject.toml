@@ -132,7 +132,7 @@ rdf-linkchecker="rdf_linkchecker.__main__:app"
 [project.optional-dependencies]
 dev = [
 "bandit==1.7.4",
-"black==22.6",
+"black==22.10.0",
 "darglint==1.8.1",
 "isort[colors]==5.10.1",
 "mypy==0.971",
