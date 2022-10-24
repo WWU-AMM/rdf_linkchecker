@@ -141,7 +141,7 @@ dev = [
 "pydocstyle==6.1.1",
 "pylint==2.14.5",
 "pytest==7.1.2",
-"pyupgrade==2.37.3",
+"pyupgrade==3.1.0",
 "safety==2.1.1",
 "coverage==6.4",
 "coverage-badge==1.1.0",
