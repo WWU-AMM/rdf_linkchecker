@@ -92,7 +92,7 @@ show_missing = true
 [project]
 dependencies = [
 "rich>=11,<13",
-"rdflib==6.1.1",
+"rdflib==6.2.0",
 "validators>=0.19,<0.21",
 "user-agent==0.1.10",
 "aiohttp==3.8.1",
