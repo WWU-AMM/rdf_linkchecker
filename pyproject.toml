@@ -97,7 +97,7 @@ dependencies = [
 "user-agent==0.1.10",
 "aiohttp==3.8.1",
 "Brotli==1.0.9",
-"typer==0.6.1",
+"typer==0.7.0",
 ]
 
 name = "rdf-linkchecker"
